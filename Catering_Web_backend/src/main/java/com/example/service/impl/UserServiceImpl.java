@@ -1,0 +1,36 @@
+package com.example.service.impl;
+
+import com.example.dao.UserDAO;
+import com.example.model.dto.UserDTO;
+import com.example.model.entity.User;
+import com.example.model.vo.ResponseVO;
+import com.example.model.vo.UserVO;
+import com.example.service.UserService;
+import com.example.util.JWTUtil;
+
+public class UserServiceImpl implements UserService {
+    private UserDAO userDAO;
+
+    public UserServiceImpl(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    @Override
+    public ResponseVO<UserVO> loginUser(UserDTO userDTO) {
+        //获取指定用户的信息
+        User user = userDAO.findByUsername(userDTO.getUsername());
+        if (user == null) {
+            return new ResponseVO<>(401, "用户名或密码无效", null);
+        } else if (user.getPassword().equals(userDTO.getPassword())) {
+            // 生成JWT令牌并存储到数据库
+            String token = JWTUtil.generateToken(userDTO.getUsername());
+            user.setJwtToken(token);
+            userDAO.updateUser(user); // 更新用户信息，保存token
+            System.out.println("登录成功! JWT令牌: " + token);
+
+            UserVO userVO = new UserVO(user.getUsername(),user.getRole(),token);
+            return new ResponseVO<>(200, "登录成功", userVO);
+        }
+        return new ResponseVO<>(401, "用户名或密码无效", null);
+    }
+}
