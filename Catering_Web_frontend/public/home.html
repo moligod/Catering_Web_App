@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>餐饮管理系统</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>餐饮管理系统</h1>
+        <nav>
+            <a href="/" onclick="navigate(event, '/')">首页</a>
+            <a href="/login" onclick="navigate(event, '/login')">登录</a>
+            <a href="/register" onclick="navigate(event, '/register')">注册</a>
+        </nav>
+    </header>
+    <main>
+        <section class="welcome-section">
+            <h2>欢迎来到餐饮管理系统</h2>
+            <p>通过我们的系统，您可以轻松管理您的餐饮业务，包括菜单管理、订单处理、库存管理等功能。</p>
+        </section>
+        <section class="introduction-section">
+            <h2>一、引言</h2>
+            <p>本文档旨在详细阐述餐饮管理系统的功能需求，为系统的开发、设计和测试提供明确指导。该系统旨在帮助餐饮企业实现高效的菜品管理、订单处理、库存管理、员工管理以及财务分析等，从而提升餐饮业务的运营效率和服务质量。</p>
+        </section>
+        <section class="business-background-section">
+            <h2>二、业务背景与目标</h2>
+            <p>随着餐饮业的快速发展和竞争的加剧，餐饮企业需要一套功能强大的管理系统来应对日益增长的客户需求、提升服务质量、降低运营成本。该系统应能够实现对菜品、库存、员工、订单等各个方面的全面管理，并提供强大的数据分析和报表功能，以支持企业的决策和战略规划。</p>
+        </section>
+        <section class="features-section">
+            <h2>三、功能需求</h2>
+            <div class="feature">
+                <h3>1. 菜品管理</h3>
+                <ul>
+                    <li>支持菜品的录入、编辑和删除，包括菜品名称、价格、描述、图片等信息。</li>
+                    <li>提供菜品分类管理，方便用户按类别浏览和搜索菜品。</li>
+                    <li>支持菜品的组合和套餐设置，以满足不同客户的需求。</li>
+                    <li>实现菜品的库存管理和预警，确保菜品供应的及时性和准确性。</li>
+                </ul>
+            </div>
+            <div class="feature">
+                <h3>2. 订单管理</h3>
+                <ul>
+                    <li>支持订单的创建、查看和修改，包括客户信息、菜品列表、订单状态等。</li>
+                    <li>提供多种支付方式，包括现金、信用卡、在线支付等，以满足不同客户的需求。</li>
+                    <li>实现订单的分派和打印功能，方便厨房和服务员进行订单处理。</li>
+                    <li>支持订单的退订和退款处理，保障客户权益。</li>
+                </ul>
+            </div>
+            <div class="feature">
+                <h3>3. 库存管理</h3>
+                <ul>
+                    <li>实现食材和原材料的入库、出库和库存管理功能，确保库存数据的准确性。</li>
+                    <li>提供库存预警和补货建议，帮助餐饮企业及时调整库存策略。</li>
+                    <li>支持库存盘点和损耗管理，降低库存成本。</li>
+                    <li>实现库存调拨功能，满足不同门店或仓库之间的库存调配需求。</li>
+                </ul>
+            </div>
+            <div class="feature">
+                <h3>4. 员工管理</h3>
+                <ul>
+                    <li>支持员工信息的录入和编辑，包括姓名、职位、联系方式等。</li>
+                    <li>提供员工排班和考勤管理功能，确保员工工作的规范性和效率。</li>
+                    <li>实现员工绩效评估和奖惩管理，激励员工提升工作表现。</li>
+                    <li>支持员工培训和知识库管理，提升员工的专业素质和服务水平。</li>
+                </ul>
+            </div>
+            <div class="feature">
+                <h3>5. 财务管理</h3>
+                <ul>
+                    <li>实现销售数据的统计和报表生成，包括销售额、销售量、利润等。</li>
+                    <li>支持成本分析和控制，降低运营成本。</li>
+                    <li>提供财务报表导出功能，方便企业进行财务审计和决策分析。</li>
+                    <li>实现与第三方支付平台的对接，确保资金安全和便捷性。</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 餐饮管理系统. 保留所有权利.</p>
+    </footer>
+    <script src="../js/main.js"></script>
+</body>
+</html>
