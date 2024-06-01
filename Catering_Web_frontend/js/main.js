@@ -3,6 +3,7 @@ const routes = {
     '/login': 'public/login.html',
     '/register': 'public/register.html',
     '/houtai': 'public/houtai.html',
+    '/index.html': 'public/home.html',
 };
 //函数用于拦截浏览器的导航事件，更新浏览器的历史记录，并调用handleLocation来动态加载页面内容。
 function navigate(event, path) {

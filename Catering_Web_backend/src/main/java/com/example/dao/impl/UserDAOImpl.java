@@ -23,7 +23,7 @@ public class UserDAOImpl implements UserDAO {
             statement.setString(1, username);
             //执行sql语句，并返回一个结果集
             ResultSet resultSet = statement.executeQuery();
-            //找到就返回数据，找不到就返回null
+            //结果集非空则转成实体返回回去
             if (resultSet.next()) {
                 return mapResultSetToUser(resultSet);
             }

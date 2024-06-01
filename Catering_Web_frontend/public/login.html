@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
             background-color: #f2f2f2;
             color: #333;
         }
+
         .container {
             margin-top: 100px;
             width: 300px;
@@ -22,6 +24,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
+
         .button {
             display: inline-block;
             padding: 5px 10px;
@@ -36,18 +39,34 @@
             width: 45%;
             text-align: center;
         }
+
         .button:hover {
             background-color: #0056b3;
         }
+
         form {
             text-align: left;
         }
+
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
         }
-        input[type="text"],
+
+        input[type="text"] {
+            box-sizing: border-box;
+            /* 确保padding和border不会增加宽度 */
+            width: 100%;
+            /* 使输入框宽度适应父容器 */
+            padding: 8px;
+            /* 适当的填充 */
+            margin: 5px 0;
+            /* 添加适当的外边距 */
+            border: 1px solid #ccc;
+            /* 标准的边框 */
+        }
+
         input[type="password"] {
             width: calc(100% - 20px);
             padding: 10px;
@@ -56,11 +75,13 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         .captcha-container {
             display: flex;
             align-items: center;
             margin: 10px 0;
         }
+
         .captcha {
             width: 100px;
             height: 40px;
@@ -74,6 +95,7 @@
             justify-content: center;
             align-items: center;
         }
+
         input[type="text"]#captchaInput {
             width: calc(100% - 130px);
             padding: 10px;
@@ -82,6 +104,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         button[type="submit"] {
             display: block;
             width: 100%;
@@ -93,25 +116,28 @@
             cursor: pointer;
             font-size: 16px;
         }
+
         button[type="submit"]:hover {
             background-color: #218838;
         }
+
         .button-container {
             display: flex;
             justify-content: space-between;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h2>登录</h2>
         <form id="loginForm">
             <label for="username">用户名:</label>
             <input type="text" id="username" name="username" required>
-            
+
             <label for="password">密码:</label>
             <input type="password" id="password" name="password" required>
-            
+
             <label for="captchaInput">验证码:</label>
             <div class="captcha-container">
                 <input type="text" id="captchaInput" name="captcha" required>
@@ -124,6 +150,7 @@
             </div>
         </form>
     </div>
-    <script  src="../js/login.js"></script>
+    <script src="../js/login.js"></script>
 </body>
+
 </html>

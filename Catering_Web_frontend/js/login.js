@@ -1,17 +1,38 @@
-//添加事件监听器，监听表单的提交事件,阻止表单的默认提交行为
+// 全局变量存储当前验证码
+let currentCaptcha = '';
+//初始化验证码
+updateCaptcha()
+//监听表单的提交事件
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     
-    //获取表单数据
+    //阻止表单默认提交行为
     event.preventDefault();
-    
+
+    // 获取用户输入的验证码，并转为小写
+    const userInput = document.getElementById('captchaInput').value.toLowerCase();
+
+    // 生成的验证码转为小写
+    const validCaptcha = currentCaptcha.toLowerCase(); 
+
+    // 比较用户输入的验证码和当前验证码
+    if (userInput === validCaptcha) {
+        Qmsg.loading("正在登录中");
+    } else {
+        Qmsg.error("验证码错误,请重新输入验证码")
+        updateCaptcha();
+        return;
+    }
+
     // 获取触发事件的表单
     const formData = new FormData(event.target);
-    const data = new URLSearchParams();
 
+    //将表单数据转为URLSearchParams对象
+    const data = new URLSearchParams();
     for (const pair of formData) {
         data.append(pair[0], pair[1]);
     }
 
+    // 发送登录请求
     fetch('http://localhost:8081/login', {
         method: 'POST',
         body: data,
@@ -20,22 +41,27 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         }
     })
     .then(response => {
+        // 如果请求成功，返回响应的json数据，给下一个then处理
         if (response.ok) {
             return response.json();
         }
         throw new Error('Network response was not ok');
     })
     .then(data => {
+        // 如果登录成功，弹出提示框，并跳转到后台
         alert('Login successful: ' + data.message);
-        window.location.href = '/';
+        window.location.href = '/houtai';
     })
     .catch(error => {
+        // 如果登录失败，弹出提示框
         alert('Login failed: ' + error.message);
     });
 });
-// console.log("This script has been loaded and executed.");
-// 添加事件监听器，监听验证码的点击事件
-updateCaptcha()
+
+// 监听验证码的点击事件，点击验证码时更新验证码
+document.getElementById('captcha').addEventListener('click', updateCaptcha);
+
+// 更新验证码方法
 function updateCaptcha() {
     const captchaElement = document.getElementById('captcha');
     if (captchaElement) {
@@ -45,5 +71,7 @@ function updateCaptcha() {
             captcha += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         captchaElement.textContent = captcha;
+        // 保存生成的验证码到全局变量进行验证码校验
+        currentCaptcha = captcha;  
     }
 }
