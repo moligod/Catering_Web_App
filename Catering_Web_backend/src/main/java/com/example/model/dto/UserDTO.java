@@ -5,7 +5,17 @@ public class UserDTO {
     private String password;
     private String role;
     private String jwtToken;
-
+    //登录的时候用
+    public UserDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+    //登录的时候用
+    public UserDTO(String username, String password, String jwtToken) {
+        this.username = username;
+        this.password = password;
+        this.jwtToken = jwtToken;
+    }
     public String getJwtToken() {
         return jwtToken;
     }

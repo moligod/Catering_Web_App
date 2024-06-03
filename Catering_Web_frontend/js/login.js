@@ -15,9 +15,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     const validCaptcha = currentCaptcha.toLowerCase(); 
 
     // 比较用户输入的验证码和当前验证码
-    if (userInput === validCaptcha) {
-        Qmsg.loading("正在登录中");
-    } else {
+    if (userInput !== validCaptcha) { 
         Qmsg.error("验证码错误,请重新输入验证码")
         updateCaptcha();
         return;
@@ -35,26 +33,32 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     // 发送登录请求
     fetch('http://localhost:8081/login', {
         method: 'POST',
+        credentials: 'include',//发送凭证，不写接受的cookie会被浏览器拦截（被折磨了好几个小时）
         body: data,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     })
     .then(response => {
-        // 如果请求成功，返回响应的json数据，给下一个then处理
+        // 如果请求成功，解析JSON
         if (response.ok) {
             return response.json();
         }
-        throw new Error('Network response was not ok');
+        // 如果响应状态码不是2xx, 解析JSON以获取错误详情
+        return response.json().then(errData => {
+        // 使用从后端获取的错误消息，如果没有则使用默认消息，抛出错误后执行catch方法
+        throw new Error(errData.message || "未知错误");
+        });
     })
     .then(data => {
         // 如果登录成功，弹出提示框，并跳转到后台
-        alert('Login successful: ' + data.message);
-        window.location.href = '/houtai';
+        // localStorage.setItem('jwtToken', data.data.jwtToken);  // 存储 JWT Token
+        Qmsg.success(data.message)
+        console.log(document.cookie);  // 打印所有可访问的Cookies
+        // window.location.href = '/houtai';
     })
     .catch(error => {
-        // 如果登录失败，弹出提示框
-        alert('Login failed: ' + error.message);
+        Qmsg.error(error.message);
     });
 });
 

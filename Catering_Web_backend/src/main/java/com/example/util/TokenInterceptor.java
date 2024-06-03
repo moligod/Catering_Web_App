@@ -12,6 +12,7 @@ public class TokenInterceptor extends Filter {
     //接收HttpExchange对象和过滤器链Chain对象，并抛出IOException异常
     @Override
     public void doFilter(HttpExchange exchange, Chain chain) throws IOException {
+
         //获取请求的URI路径并将其存储在path变量中。
         String path = exchange.getRequestURI().getPath();
         // 从请求头中获取Authorization(请求头)字段

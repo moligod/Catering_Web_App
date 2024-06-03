@@ -4,7 +4,7 @@ public class UserVO {
     private String username;
     private String role;
     private String jwtToken;
-    // Getters and Setters
+
     public UserVO(String username, String role, String jwtToken) {
         this.username = username;
         this.role = role;
