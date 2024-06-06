@@ -1,0 +1,17 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.login-container {
+    width: 300px;
+    margin: 100px auto;
+}
+
+.layui-layout-admin .layui-header .layui-logo {
+    font-size: 24px;
+    color: #fff;
+}
+
+.layui-container {
+    padding: 20px;
+}
