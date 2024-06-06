@@ -83,10 +83,11 @@ public class LoginController implements HttpHandler {
     private void setJwtCookie(HttpExchange exchange, String jwtToken) {
         HttpCookie cookie = new HttpCookie("jwtToken", jwtToken);
         cookie.setMaxAge(86400);
-        cookie.setHttpOnly(true);
+        //为true可以防止客户端不可访问该cookie（如果设置true记得给下面string.format末尾添加HttpOnly）
+        cookie.setHttpOnly(false);
         cookie.setPath("/");
         // 生成符合HTTP标准的Set-Cookie头部值
-        String cookieHeader = String.format("Set-Cookie: %s=%s; Path=%s; Max-Age=%d; HttpOnly",
+        String cookieHeader = String.format("Set-Cookie: %s=%s; Path=%s; Max-Age=%d;",
                 cookie.getName(),
                 cookie.getValue(),
                 cookie.getPath(),

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+//token是中间件所以不需要初始化
 public class TokenDAOImpl {
     private static Connection connection;
 

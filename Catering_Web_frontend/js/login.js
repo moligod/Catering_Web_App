@@ -55,7 +55,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         // localStorage.setItem('jwtToken', data.data.jwtToken);  // 存储 JWT Token
         Qmsg.success(data.message)
         console.log(document.cookie);  // 打印所有可访问的Cookies
-        // window.location.href = '/houtai';
+        window.location.href = '/admin';
     })
     .catch(error => {
         Qmsg.error(error.message);

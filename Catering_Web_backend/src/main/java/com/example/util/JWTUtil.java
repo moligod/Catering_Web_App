@@ -48,12 +48,10 @@ public class JWTUtil {
                 if (!expectedSignature.equals(signature) || isTokenExpired(payload)) {
                     return false;
                 }
-                System.out.println("3");
                 // 解析token中的用户名，并且去数据库中查找用户名对应的token
                 String username = getUsernameFromToken(token);
-                System.out.println("Parsed username: " + username);
                 String storedToken = TokenDAOImpl.getTokenByUsername(username);
-                System.out.println(token.equals(storedToken));
+                System.out.println("token是否正确："+token.equals(storedToken));
                 return token.equals(storedToken);
             }
             return false;
@@ -119,11 +117,12 @@ public class JWTUtil {
      * 解析JWT载荷
      * @param payload JWT载荷
      * @return 载荷内容的键值对
+     * 载荷是JWT的主体部分，包含了声明信息:注册声明、公共声明、私有声明
      */
     private static Map<String, Object> parsePayload(String payload) {
         Map<String, Object> claims = new HashMap<>();
         try {
-            System.out.println("Decoded payload: " + payload);
+            System.out.println("解码载荷: " + payload);
             // 使用正则表达式匹配键值对
             String[] entries = payload.replace("{", "").replace("}", "").split(",");
             for (String entry : entries) {
@@ -135,7 +134,7 @@ public class JWTUtil {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error parsing payload: " + e.getMessage());
+            System.out.println("错误解析负载: " + e.getMessage());
             e.printStackTrace();
         }
         return claims;

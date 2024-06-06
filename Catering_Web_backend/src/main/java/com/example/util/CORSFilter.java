@@ -31,6 +31,6 @@ public class CORSFilter extends Filter {
 
     @Override
     public String description() {
-        return "Adds CORS headers to the response";
+        return "添加CORS标头添加到响应中";
     }
 }

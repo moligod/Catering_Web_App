@@ -18,3 +18,5 @@ window.QMSG_GLOBALS = {
         timeout: 1000
     }
 }
+
+

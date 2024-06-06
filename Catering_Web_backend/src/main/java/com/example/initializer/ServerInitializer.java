@@ -1,18 +1,9 @@
 package com.example.initializer;
 
-import com.example.config.DatabaseConfig;
-import com.example.config.DependencyManager;
-import com.example.dao.UserDAO;
-//import com.example.dao.impl.UserDaoImpl;
-import com.example.dao.impl.TokenDAOImpl;
-import com.example.dao.impl.UserDAOImpl;
-import com.example.service.UserService;
-import com.example.Router.Router;
-//import com.example.service.impl.UserServiceImpl;
-import com.example.service.impl.UserServiceImpl;
-import com.example.util.CORSFilter;
-import com.sun.net.httpserver.HttpServer;
 
+import com.example.config.DependencyManager;
+import com.example.Router.Router;
+import com.sun.net.httpserver.HttpServer;
 import java.net.InetSocketAddress;
 
 public class ServerInitializer {
