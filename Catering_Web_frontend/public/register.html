@@ -54,10 +54,10 @@
             font-weight: bold;
         }
 
-        input[type="text"],input[type="password"] {
+        input[type="text"] ,input[type="password"]{
             box-sizing: border-box;
             /* 确保padding和border不会增加宽度 */
-            width: 100%;
+            width: calc(100%);
             /* 使输入框宽度适应父容器 */
             padding: 8px;
             /* 适当的填充 */
@@ -65,6 +65,15 @@
             /* 添加适当的外边距 */
             border: 1px solid #ccc;
             /* 标准的边框 */
+            border-radius: 4px;
+        }
+
+        select {
+            width: calc(28%);
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
         .captcha-container {
@@ -88,7 +97,7 @@
         }
 
         input[type="text"]#captchaInput {
-            width: calc(100% - 100px);
+            width: calc(100% - 110px);
             padding: 10px;
             margin: 0;
             box-sizing: border-box;
@@ -116,32 +125,48 @@
             display: flex;
             justify-content: space-between;
         }
+        .registerCDK{
+            width: calc(60%);
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h2>登录</h2>
-        <form id="loginForm">
+        <h2>注册</h2>
+        <form id="registerForm">
             <label for="username">用户名:</label>
             <input type="text" id="username" name="username" required>
 
             <label for="password">密码:</label>
             <input type="password" id="password" name="password" required>
 
+            <label for="registerCDK">注册码:</label>
+            <input style="width: calc(70%);" type="password" id="registerCDK" name="registerCDK" required>
+            <select name ="role" required>
+                <option value="admin" selected>管理员</option>
+                <option value="waiter">服务员</option>
+                <option value="chef">厨师</option>
+            </select>
             <label for="captchaInput">验证码:</label>
             <div class="captcha-container">
                 <input type="text" id="captchaInput" name="captcha" required>
                 <div id="captcha" class="captcha"></div>
             </div>
-            <button type="submit">登录</button>
+            <button type="submit">注册</button>
             <div class="button-container">
-                <a href="register" class="button">注册</a>
+                <a href="login" class="button">登录</a>
                 <a href="/" class="button">主页</a>
             </div>
         </form>
     </div>
-    <script src="../js/login.js"></script>
+    <script src="../js/register.js"></script>
 </body>
 
 </html>

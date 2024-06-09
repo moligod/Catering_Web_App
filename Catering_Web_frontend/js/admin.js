@@ -1,16 +1,9 @@
 layui.use(['form', 'layer'], function() {
     var form = layui.form;
     var layer = layui.layer;
-
-    // 登录表单提交事件
-    form.on('submit(login)', function(data) {
-        console.log(data.field);
-        // TODO: 在此处处理登录逻辑
-        return false;
-    });
 });
 
-function showAddDishForm() {
+function showAddD-------------------------------------------------------------------------------------------------------------------------iishForm() {
     var content = `
         <form class="layui-form" action="">
             <div class="layui-form-item">

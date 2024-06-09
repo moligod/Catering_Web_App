@@ -122,3 +122,5 @@ function loadPage(route) {
 window.onpopstate = handleLocation;
 // 页面加载完成时触发handleLocation函数(基于当前的URL初始化页面内容)
 window.onload = handleLocation;
+
+
