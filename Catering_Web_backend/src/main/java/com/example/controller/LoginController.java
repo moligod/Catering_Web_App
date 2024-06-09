@@ -71,14 +71,6 @@ public class LoginController implements HttpHandler {
         exchange.getResponseBody().write(response.getBytes());
         exchange.close();
     }
-
-    private void handleNotFound(HttpExchange exchange) throws IOException {
-        // 返回404页面
-        String response = "404 Not Found";
-        exchange.sendResponseHeaders(404, response.getBytes().length);
-        exchange.getResponseBody().write(response.getBytes());
-        exchange.close();
-    }
     //设置cookie
     private void setJwtCookie(HttpExchange exchange, String jwtToken) {
         HttpCookie cookie = new HttpCookie("jwtToken", jwtToken);

@@ -4,13 +4,12 @@ public class UserVO {
     private String username;
     private String role;
     private String jwtToken;
-
+    //登录的时候发送
     public UserVO(String username, String role, String jwtToken) {
         this.username = username;
         this.role = role;
         this.jwtToken = jwtToken;
     }
-
     public String getUsername() {
         return username;
     }

@@ -32,7 +32,7 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
-
+    //用ID找指定用户并更新信息
     @Override
     public void updateUser(User user) {
         String sql = "UPDATE users SET username = ?, password = ?, role = ?, jwtToken = ?, updated_at = ? WHERE id = ?";
@@ -49,27 +49,25 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
+
     @Override
     public boolean saveUser(User user) {
+        String sql = "INSERT INTO users (username, password, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
+        try {
+            System.out.println(user.getCreatedAt()+" +++++++++++++ "+user.getUpdatedAt());
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getRole());
+            statement.setTimestamp(4, java.sql.Timestamp.valueOf(user.getCreatedAt()));
+            statement.setTimestamp(5, java.sql.Timestamp.valueOf(user.getUpdatedAt()));
+            //返回的整数表示执行 SQL 语句后受影响的行数（正整数：表示受影响的行数，0：表示没有行受影响。-1：表示执行了一个返回行计数的 SQL 语句）
+            return statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
-
-//    @Override
-//    public boolean saveUser(User user) {
-//        try {
-//            String sql = "INSERT INTO users (username, password, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//            statement.setString(1, user.getUsername());
-//            statement.setString(2, user.getPassword());
-//            statement.setString(3, user.getRole());
-//            statement.setDate(4, new java.sql.Date(user.getCreatedAt().getTime()));
-//            statement.setDate(5, new java.sql.Date(user.getUpdatedAt().getTime()));
-//            return statement.executeUpdate() > 0;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
     //把从数据库查询到的数据遍历到User实体类中
     private User mapResultSetToUser(ResultSet resultSet) throws SQLException {
         User user = new User();

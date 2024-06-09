@@ -6,7 +6,6 @@ import com.example.model.vo.UserVO;
 
 public interface UserService {
      ResponseVO<UserVO> loginUser(UserDTO userDTO);
-//    String generateToken(UserDTO userDTO);
-//    boolean registerUser(UserDTO userDTO);
+     ResponseVO<Void> registerUser(UserDTO userDTO);
     // 其他业务操作
 }

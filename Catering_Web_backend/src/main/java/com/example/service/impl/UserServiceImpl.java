@@ -8,9 +8,13 @@ import com.example.model.vo.UserVO;
 import com.example.service.UserService;
 import com.example.util.JWTUtil;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
-
+    private final String registercdk="moligod666";
     public UserServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
@@ -34,5 +38,33 @@ public class UserServiceImpl implements UserService {
         }
         //在能查找到用户并且密码不相等的到时候只有这一个选择
         return new ResponseVO<>(401, "密码错误", null);
+    }
+    //注册账号
+    @Override
+    public ResponseVO<Void> registerUser(UserDTO userDTO) {
+        //检查管理员注册码是否正确
+        if (!userDTO.getReigsterCDK().equals(registercdk)){
+            System.out.println("111");
+            return new ResponseVO<>(401, "注册码错误,请联系管理员获取注册码", null);
+        }
+        // 角色集合
+        Set<String> validRoles = new HashSet<>(Arrays.asList("chef", "waiter", "admin"));
+
+        if (userDTO.getUsername().length() > 6 && userDTO.getPassword().length() > 6 && validRoles.contains(userDTO.getRole())) {
+            if (userDAO.findByUsername(userDTO.getUsername())!=null){
+                return new ResponseVO<>(401, "用户名已被注册", null);
+            }
+            System.out.println("222");
+            User user = new User(userDTO.getUsername(),userDTO.getPassword(),userDTO.getRole());
+            boolean Execution_result=userDAO.saveUser(user);
+            if (Execution_result){
+                return new ResponseVO<>(200, "登录成功", null);
+            }
+            System.out.println("执行到未知错误");
+            return new ResponseVO<>(200, "未知错误", null);
+
+        }
+        System.out.println("333");
+            return new ResponseVO<>(401, "提交信息格式错误", null);
     }
 }

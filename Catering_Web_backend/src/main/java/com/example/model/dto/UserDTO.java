@@ -5,17 +5,25 @@ public class UserDTO {
     private String password;
     private String role;
     private String jwtToken;
+    private String reigsterCDK;
     //登录的时候用
     public UserDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }
-    //登录的时候用
-    public UserDTO(String username, String password, String jwtToken) {
+
+    //注册的时候用
+    public UserDTO(String username, String password, String role, String reigsterCDK) {
         this.username = username;
         this.password = password;
-        this.jwtToken = jwtToken;
+        this.role = role;
+        this.reigsterCDK = reigsterCDK;
     }
+
+    public String getReigsterCDK() { return reigsterCDK; }
+
+    public void setReigsterCDK(String reigsterCDK) { this.reigsterCDK = reigsterCDK; }
+
     public String getJwtToken() {
         return jwtToken;
     }
