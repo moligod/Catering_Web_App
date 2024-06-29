@@ -7,7 +7,6 @@ import java.net.HttpCookie;
 import java.util.List;
 //继承Filter代表过滤器类
 public class TokenInterceptor extends Filter {
-
     //接收HttpExchange对象和过滤器链Chain对象，并抛出IOException异常
     @Override
     public void doFilter(HttpExchange exchange, Chain chain) throws IOException {
@@ -23,17 +22,8 @@ public class TokenInterceptor extends Filter {
         // 检查请求头是否存在且不为空
         if (cookieHeaders != null && !cookieHeaders.isEmpty()) {
             // 获取Cookie头里面的token
-            for (String cookieHeader : cookieHeaders) {
-                List<HttpCookie> cookies = HttpCookie.parse(cookieHeader);
-                for (HttpCookie cookie : cookies) {
-                    if ("jwtToken".equals(cookie.getName())) {
-                        token = cookie.getValue();
-                        break;
-                    }
-                }
-            }
+            token = getCookietoken(cookieHeaders);
         }
-
         // 验证JWT令牌
         if (token != null && JWTUtil.validateToken(token)) {
             // 如果令牌有效，继续执行过滤器链中的下一个过滤器或请求处理器
@@ -52,6 +42,21 @@ public class TokenInterceptor extends Filter {
     @Override
     public String description() {
         return "JWT令牌验证过滤器";
+    }
+
+    // 获取Cookie头里面的token
+    public String getCookietoken(List<String> cookieHeaders){
+        String token = null;
+        for (String cookieHeader : cookieHeaders) {
+            List<HttpCookie> cookies = HttpCookie.parse(cookieHeader);
+            for (HttpCookie cookie : cookies) {
+                if ("jwtToken".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                    return token;
+                }
+            }
+        }
+        return null;
     }
 
 }

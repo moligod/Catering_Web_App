@@ -45,13 +45,13 @@ public class JWTUtil {
                 String payload = parts[1];
                 String signature = parts[2];
                 String expectedSignature = generateSignature(header, payload);
+                //确保签名没被篡改，还有时间没有过期
                 if (!expectedSignature.equals(signature) || isTokenExpired(payload)) {
                     return false;
                 }
                 // 解析token中的用户名，并且去数据库中查找用户名对应的token
                 String username = getUsernameFromToken(token);
                 String storedToken = TokenDAOImpl.getTokenByUsername(username);
-                System.out.println("token是否正确："+token.equals(storedToken));
                 return token.equals(storedToken);
             }
             return false;
@@ -108,7 +108,9 @@ public class JWTUtil {
      * @return 是否过期
      */
     private static boolean isTokenExpired(String payload) {
-        Map<String, Object> claims = parsePayload(payload);
+        //转成json格式，否则无法解析JWT载荷
+        String payloadjson = new String(Base64.getUrlDecoder().decode(payload), StandardCharsets.UTF_8);
+        Map<String, Object> claims = parsePayload(payloadjson);
         Long exp = (Long) claims.get("exp");
         return exp != null && exp < System.currentTimeMillis();
     }
@@ -122,7 +124,6 @@ public class JWTUtil {
     private static Map<String, Object> parsePayload(String payload) {
         Map<String, Object> claims = new HashMap<>();
         try {
-            System.out.println("解码载荷: " + payload);
             // 使用正则表达式匹配键值对
             String[] entries = payload.replace("{", "").replace("}", "").split(",");
             for (String entry : entries) {

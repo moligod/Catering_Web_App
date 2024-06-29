@@ -2,7 +2,7 @@
 let currentCaptcha = '';
 //初始化验证码
 updateCaptcha()
-//监听表单的提交事件
+//监听表单的提交事件（检测大小写字数等）
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     
     //阻止表单默认提交行为

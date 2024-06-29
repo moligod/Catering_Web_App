@@ -80,4 +80,22 @@ public class UserDAOImpl implements UserDAO {
         user.setJwtToken(resultSet.getString("jwtToken"));
        return user;
     }
+
+    public int delecttoken(String token){
+        String sql = "UPDATE users SET jwtToken = NULL WHERE jwtToken = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, token);
+            // 执行DELETE语句
+            int rowsAffected = stmt.executeUpdate();
+            // 检查影响的行数，大于1删除成功，否则失败
+            if (rowsAffected > 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

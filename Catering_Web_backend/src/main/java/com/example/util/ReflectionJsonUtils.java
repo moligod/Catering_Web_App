@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 //反射json转换
 public class ReflectionJsonUtils {
-
+    //转换对象的
     public static String toJson(Object obj) {
         if (obj == null) {
             return "{}";
@@ -35,5 +35,13 @@ public class ReflectionJsonUtils {
                 .replace("\n", "\\n")
                 .replace("\r", "\\r")
                 .replace("\t", "\\t");
+    }
+    //转换string的
+    public static String toJsonString(String key, String value) {
+        Map<String, String> dataMap = new LinkedHashMap<>();
+        dataMap.put(key, escapeJsonString(value));
+        return "{" + dataMap.entrySet().stream()
+                .map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
+                .collect(Collectors.joining(", ")) + "}";
     }
 }

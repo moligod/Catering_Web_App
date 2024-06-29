@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import com.example.config.Contants;
 import com.example.dao.UserDAO;
 import com.example.model.dto.UserDTO;
 import com.example.model.entity.User;
@@ -14,7 +15,7 @@ import java.util.Set;
 
 public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
-    private final String registercdk="moligod666";
+    String registercdk= Contants.REGISTER_CDK;
     public UserServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
@@ -31,7 +32,6 @@ public class UserServiceImpl implements UserService {
             String token = JWTUtil.generateToken(userDTO.getUsername());
             user.setJwtToken(token);
             userDAO.updateUser(user); // 更新用户信息，保存token
-            System.out.println("登录成功! JWT令牌: " + token);
             //表示层的数据（名字，职位，token）
             UserVO userVO = new UserVO(user.getUsername(),user.getRole(),token);
             return new ResponseVO<>(200, "登录成功", userVO);
@@ -44,27 +44,30 @@ public class UserServiceImpl implements UserService {
     public ResponseVO<Void> registerUser(UserDTO userDTO) {
         //检查管理员注册码是否正确
         if (!userDTO.getReigsterCDK().equals(registercdk)){
-            System.out.println("111");
             return new ResponseVO<>(401, "注册码错误,请联系管理员获取注册码", null);
         }
         // 角色集合
         Set<String> validRoles = new HashSet<>(Arrays.asList("chef", "waiter", "admin"));
 
-        if (userDTO.getUsername().length() > 6 && userDTO.getPassword().length() > 6 && validRoles.contains(userDTO.getRole())) {
+        if (userDTO.getUsername().length() >= 6 && userDTO.getPassword().length() >= 6 && validRoles.contains(userDTO.getRole())) {
             if (userDAO.findByUsername(userDTO.getUsername())!=null){
                 return new ResponseVO<>(401, "用户名已被注册", null);
             }
-            System.out.println("222");
             User user = new User(userDTO.getUsername(),userDTO.getPassword(),userDTO.getRole());
             boolean Execution_result=userDAO.saveUser(user);
             if (Execution_result){
                 return new ResponseVO<>(200, "登录成功", null);
             }
-            System.out.println("执行到未知错误");
-            return new ResponseVO<>(200, "未知错误", null);
-
+            return new ResponseVO<>(401, "未知错误", null);
         }
-        System.out.println("333");
-            return new ResponseVO<>(401, "提交信息格式错误", null);
+            return new ResponseVO<>(401, "账号密码格式不对", null);
+    }
+    //删除token
+    @Override
+    public ResponseVO<Void> logouttoken(String token) {
+        if(userDAO.delecttoken(token)>0){
+            return new ResponseVO<>(200, "删除成功", null);
+        }
+        return new ResponseVO<>(401, "删除失败", null);
     }
 }

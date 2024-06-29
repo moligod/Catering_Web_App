@@ -39,6 +39,7 @@ function verifyToken(path, callback) {
             } else {
                 // Token验证失败，跳转到登录页面
                 window.location.href = "/login";
+                console.log('Token验证失败');
             }
         })
         .catch(error => {
@@ -55,7 +56,7 @@ function navigate(event, path) {
     handleLocation();
 }
 
-//处理页面加载的函数
+//验证Token函数的地址
 function handleLocation() {
     const path = window.location.pathname;
     const route = routes[path] || 'public/404.html';
@@ -79,7 +80,7 @@ function handleLocation() {
     }
 }
 
-//加载页面内容的函数
+//加载界面，根据传入的路径加载对应的HTML文件和JS文件
 function loadPage(route) {
     // 使用fetch API加载指定的HTML文件，响应成功就返回，不成功就404界面
     fetch(route)

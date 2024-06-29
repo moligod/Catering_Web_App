@@ -1,6 +1,7 @@
 package com.example.Router;
 
 import com.example.controller.AdminController;
+import com.example.controller.GlobalController;
 import com.example.controller.LoginController;
 import com.example.controller.RegisterController;
 import com.example.util.CORSFilter;
@@ -17,5 +18,7 @@ public class Router {
         server.createContext("/register", new RegisterController()).getFilters().add(new CORSFilter());
         //主界面
         server.createContext("/admin", new AdminController()).getFilters().addAll(Arrays.asList(new CORSFilter(), new TokenInterceptor()));
+        //退出
+        server.createContext("/logout", new GlobalController()).getFilters().addAll(Arrays.asList(new CORSFilter(), new TokenInterceptor()));
     }
 }

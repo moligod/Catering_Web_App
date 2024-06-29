@@ -1,17 +1,179 @@
-body {
-    font-family: Arial, sans-serif;
+/* 侧边菜单栏 */
+.admin-app-menu {
+    width: 220px;
+    height: 100vh;
+    background: rgb(47, 54, 60);
+    color: rgb(193, 195, 197);
+    position: fixed;
+    overflow-y: auto;
+    font-size: 14px;
+    /*隐藏滚动条*/
+    overflow: scroll; /* 或 auto，根据需要 */
+    -ms-overflow-style: none;  /* IE 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+/* 侧边菜单栏-头部logo */
+.admin-app-menu-title {
+    padding: 15px;
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    border-bottom: 1px solid rgba(35, 50, 50, 0.3);;
+}
+/* 侧边栏菜单-一级菜单 */
+.admin-app-menu-tree {
+    padding: 13px 19px;
+    cursor: pointer;
+}
+.admin-app-menu-tree:hover{
+    color: white;
+}
+.admin-app-menu-tree.active {
+    color: white;
+}
+/* 当菜单标题被点击时，显示子菜单 */
+.admin-app-menu-tree.opened+ul {
+    display: block;
+    /* 显示子菜单 */
+}
+/* 一级标签的图标1 */
+.admin-app-menu-tree-img1 {
+    padding-right: 10px;
+}
+/* 一级标签的图标2 */
+.admin-app-menu-tree-img2 {
+    float: right;
+    transition: transform 0.3s ease; /* 平滑过渡动画 */
+}
+/* 激活状态下的图标样式，这里假设你有一个向上的图标 */
+.admin-app-menu-tree.active .admin-app-menu-tree-img2 {
+    transform: rotate(180deg); /* 旋转图标180度 */
+}
+/* 侧边栏菜单-二级菜单-总 */
+.admin-app-menu-tree+ul {
+    /* 去除列表项前的标记、默认内外边距0和默认隐藏子菜单 */
+    list-style-type: none;
+    padding: 0 0 0 30px;
+    margin: 0;
+    display: none;
+    background-color: rgb(33, 38, 42)
+}
+/* 侧边栏菜单-二级菜单-单 */
+.admin-app-menu-tree+ul li a {
+    display: block;
+    /* 链接显示为块级元素 */
+    padding: 8px 15px;
+    /* 内边距 */
+    text-decoration: none;
+    /* 移除下划线 */
+    color: rgb(193, 195, 197)
+}
+.admin-app-menu-tree+ul li a:hover {
+    color: white;
 }
 
-.login-container {
-    width: 300px;
-    margin: 100px auto;
+
+
+
+/* 顶部导航栏 */
+.admin-app-header{
+    margin-left: 220px;
+    height: 50px;
+    background: rgb(240, 240, 240);;
+    position: fixed; /* 悬浮在顶部 */
+    width: calc(100% - 220px); /* 使导航栏宽度适应页面宽度 */
+    /* 确保它在其他元素之上 */
+    /* z-index: 1000;  */
 }
 
-.layui-layout-admin .layui-header .layui-logo {
-    font-size: 24px;
-    color: #fff;
+/* 顶部导航栏-右侧头像框区域 */
+.admin-app-header-user{
+    /* 右对齐 */
+    float: right;
+    height: 50px;
+    /* 给右边留点位置，显得美观一点 */
+    margin-right: 1%;
+    /* 定义flex布局，使所有子元素容易多维度对齐 */
+    display: flex;
+    /* 是flex布局中所有项目在交叉轴上居中对齐 */
+    align-items: center;
+    /* 相对定位用于下拉框辅助 */
+    position: relative;
+    /* 最小和大宽度 */
+    min-width: 108px;
+    max-width: 108px;
+    /* 鼠标悬停时显示手型 */
+    cursor: pointer;
+    /* 水平居中子元素 */
+    justify-content: center; 
 }
 
-.layui-container {
-    padding: 20px;
+/* 顶部导航栏-右侧头像框区域-头像 */
+.admin-app-header-user img{
+    width: 30px;
+    height: 30px;
+    /* 头像圆角 */
+    border-radius: 50%;
+}
+/* 名字超出部分不显示 */
+.admin-app-header-user-name{
+    /* 上右下左 */
+    margin: 0 5px 0 5px;
+    /* 确保文本在一行显示，否则中文之类的会自动跳转到下一行 */
+    white-space: nowrap; 
+    /* 超出部分隐藏 */
+    overflow: hidden;
+    /* 文字居中 */
+    text-align: center;
+}
+/* 顶部导航栏-右侧头像框区域-下拉列表 */
+.admin-app-header-user-tree {
+    /* 默认不显示 */
+    display: none;
+    position: absolute;
+    /* 让下拉菜单出现在头像框的正下方比并且左右对齐 */
+    top: 110%;
+    right: 2%;
+    z-index: 1000; /* 确保下拉菜单在其他元素之上 */
+}
+
+.admin-app-header-user-tree ul {
+    list-style: none; /* 移除列表项前的标记 */
+    padding: 0;
+    margin: 0;
+    /* 添加圆角边框 */
+    border-radius: 5%;
+    background-color: #ffffff; /* 下拉菜单的背景颜色 */
+    /* 设置下拉菜单的最小宽度 */
+    min-width: 100px; 
+}
+.admin-app-header-user-tree ul li {
+    padding: 8px 20px; /* 列表项内边距 */
+    text-align: left; /* 文本对齐 */
+}
+.admin-app-header-user-tree ul li a {
+    color: #333333; /* 链接文字颜色 */
+    text-decoration: none; /* 移除下划线 */
+    display: block; /* 让链接填充整个列表项 */
+    /* 文字居中 */
+    text-align: center;
+    /* 文字大小 */
+    font-size: 14px;
+}
+.admin-app-header-user-tree ul li:hover {
+    background-color: #f5f5f5; /* 鼠标悬停时的背景颜色 */
+}
+.admin-app-header-user-tree ul li a:hover {
+    color: #007bff; /* 鼠标悬停时的文字颜色 */
+    background-color: #f5f5f5;
+}
+
+
+/* 主内容 */
+.admin-app-content {
+    padding-left: 220px;
+    padding-top: 50px;
+    /* 高度是顶部导航栏减去的剩余高度 */
+    height: calc(100vh - 50px);
+    background: rgb(211, 219, 225);
 }

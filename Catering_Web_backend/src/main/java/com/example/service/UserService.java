@@ -8,4 +8,5 @@ public interface UserService {
      ResponseVO<UserVO> loginUser(UserDTO userDTO);
      ResponseVO<Void> registerUser(UserDTO userDTO);
     // 其他业务操作
+     ResponseVO<Void> logouttoken(String token);
 }
