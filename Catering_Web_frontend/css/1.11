@@ -1,0 +1,78 @@
+/* 一级菜单样式 */
+.admin-app-menu-tree li {
+    padding: 15px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #394a59;
+}
+/* 菜单被选中时样式 */
+.admin-app-menu-tree li:hover, .admin-app-menu-tree li.active {
+    background: #009688;
+}
+
+
+/* 二级菜单 */
+.admin-app-menu-tree li ul {
+    /* display: none;默认隐藏 */
+    padding-left: 10px; /*调整左边距，确保二级菜单有缩进*/
+    padding-top: 10px;
+}
+
+/* 二级菜单展开样式 */
+.admin-app-menu-tree li ul li {
+
+    padding: 10px 20px 10px 40px;
+    background: #476b8a;
+}
+
+/* 二级菜单被选中时样式 */
+.admin-app-menu-tree li ul li:hover {
+    background: #476b8a;
+}
+
+
+
+
+
+
+
+
+
+    // 选择类名为 admin-app-menu-tree 的所有 ul 元素的直接子元素 li
+    document.querySelectorAll('.admin-app-menu-tree > li').forEach(function(item) {
+        item.addEventListener('click', function(event) {
+            // 阻止事件冒泡
+            event.stopPropagation();
+
+            // 确保 ul 元素存在
+            var subMenu = this.querySelector('ul');
+            if (subMenu) {
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                    subMenu.style.display = 'none';
+                } else {
+                    document.querySelectorAll('.admin-app-menu-tree > li.active').forEach(function(activeItem) {
+                        activeItem.classList.remove('active');
+                        activeItem.querySelector('ul').style.display = 'none';
+                    });
+                    this.classList.add('active');
+                    subMenu.style.display = 'block';
+                }
+            }
+        });
+    });
+
+
+
+    // 为每个 .admin-app-header-user 元素添加点击事件监听器
+document.querySelectorAll('.admin-app-header-user').forEach(userHeader => {
+  userHeader.addEventListener('click', function () {
+    // 获取当前点击的 .admin-app-header-user 元素关联的 .admin-app-header-user-tree
+    const userTree = this.querySelector('.admin-app-header-user-tree');
+
+    // 检查 .admin-app-header-user-tree 是否存在
+    if (userTree) {
+      // 切换 'opened' 状态
+      userTree.style.display = userTree.style.display === 'block' ? 'none' : 'block';
+    }
+  });
+});
