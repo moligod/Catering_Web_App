@@ -1,0 +1,88 @@
+.pagination-controls {
+    display: flex;
+    /* 启用Flexbox布局 */
+    justify-content: center;
+    /* 水平居中对齐子元素 */
+    align-items: center;
+    /* 垂直居中对齐子元素 */
+    margin-top: 20px;
+}
+
+/* 分页控件样式 */
+.pagination {
+    text-align: center;
+}
+
+/* 分页控件样式调整 */
+.pagination-controls button {
+    padding: 8px 15px;
+    /* 按钮内边距 */
+    margin: 0 3px;
+    /* 按钮外边距 */
+    border: none;
+    /* 无边框 */
+    background-color: #e0e0e0;
+    /* 按钮背景色 */
+    color: #333;
+    cursor: pointer;
+    border-radius: 5px;
+    /* 圆角边框 */
+    transition: background-color 0.3s;
+    /* 平滑过渡效果 */
+}
+
+.pagination button:hover,
+.pagination button:active {
+    background-color: #4CAF50;
+    /* 鼠标悬浮和点击时的背景色 */
+    color: white;
+}
+
+/* 跳转输入框样式 */
+.jump-to-page-input {
+    padding: 8px;
+    /* 输入框内边距 */
+    margin: 0 3px;
+    /* 输入框外边距 */
+    border: 1px solid #ddd;
+    /* 输入框边框 */
+    border-radius: 5px;
+    /* 圆角边框 */
+    width: 50px;
+    /* 输入框宽度 */
+    text-align: center;
+    /* 文本居中 */
+}
+
+
+/* 禁用按钮样式 */
+.pagination button:disabled {
+    background-color: #ccc;
+    /* 禁用时的背景色 */
+    color: #888;
+    /* 禁用时的文字颜色 */
+    cursor: not-allowed;
+    /* 禁用时的鼠标样式 */
+}
+
+.page-number {
+    padding: 8px 15px;
+    margin: 0 3px;
+    border: none;
+    background-color: #e0e0e0;
+    /* 分页按钮背景色 */
+    color: #333;
+    cursor: pointer;
+    border-radius: 5px;
+    /* 圆角边框 */
+    transition: background-color 0.3s;
+    /* 平滑过渡效果 */
+}
+
+.page-number:hover,
+.page-number.active {
+    background-color: #4CAF50;
+    /* 悬浮和激活状态的背景色 */
+    color: white;
+}
+

@@ -1,0 +1,129 @@
+<style>
+/* 表单容器样式 */
+form {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+}
+
+/* 表单标题样式 */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 表单元素通用样式 */
+
+form input{
+    width: 75%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* 确保padding不会增加宽度 */
+}
+form label{
+    width: 20%;
+    padding: 10px;
+    box-sizing: border-box; /* 确保padding不会增加宽度 */
+}
+form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* 确保padding不会增加宽度 */
+    
+}
+
+/* 输入字段聚焦时的样式 */
+form input:focus,
+form button:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+}
+
+/* 提交按钮样式 */
+form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+/* 提交按钮悬浮效果 */
+form button:hover {
+    background-color: #45a049;
+}
+
+/* 表单行样式 */
+.form-row {
+    margin-bottom: 10px;
+}
+
+/* 表单错误信息样式 */
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+</style>
+
+<body>
+    <h2>修改菜品</h2>
+<!-- 表单 -->
+<form>
+    <label>菜名</label><input type="text" name="name" id="name" required/><br>
+    <label>表述</label><input type="text" name="description" id="description" required/><br>
+    <label>价格</label><input type="text" name="price" id="price" required/><br>
+    <label>类别</label><input type="text" name="category" id="category" required/><br>
+    <label>库存</label><input type="text" name="stock" id="stock" required/><br>
+    <!-- 隐藏的id -->
+    <input type="hidden" name="id" id="id" value=""/><br>
+    <!-- 提交按钮 -->
+    <input type="submit" value="添加"/>
+ </form>
+
+</body>
+
+<script type="module">
+    // 假设这是从后端获取的菜单数据
+    import { clearmenuItems } from "/public/admin/Dish/js/table.js";
+    //修改菜品，添加成功后跳转到菜品列表,通过fatch发送post请求
+    document.querySelector('form').addEventListener('submit', function(event){
+        // 获取触发事件的表单
+        let formData = new FormData(event.target);
+        //将表单数据转为URLSearchParams对象
+        let data = new URLSearchParams();
+        for (let pair of formData) {
+        data.append(pair[0], pair[1]);
+        }
+        //阻止表单提交
+        event.preventDefault();
+        console.log('submit');
+        fetch(API_URL+'/admin/Dishesupdate', {
+            method: 'POST',
+            credentials: 'include',
+            body: data,
+        })
+        .then(response => {
+            if(response.ok){
+                Qmsg.success('修改成功');
+                document.getElementById("myModal").style.display = "none";
+                //清空菜单，并重新刷新
+                clearmenuItems();
+                return response.json();
+            }else{
+                Qmsg.success('修改失败');
+            }
+        })
+        
+     
+    })
+    
+</script> 

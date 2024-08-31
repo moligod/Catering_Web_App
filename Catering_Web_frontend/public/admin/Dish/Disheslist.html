@@ -1,0 +1,212 @@
+<link rel="stylesheet" href="/public/admin/Dish/css/table.css">
+<link rel="stylesheet" href="/public/admin/Dish/css/pagination.css">
+<link rel="stylesheet" href="/public/admin/Dish/css/modal.css">
+<link rel="stylesheet" href="/public/admin/Dish/css/util.css">
+
+<body>
+    <!-- 整个内容主题 -->
+    <div id="menumain" style="position: relative;height: 100%;width: 100%;">
+        <!-- 表格框体 -->
+        <div id="menuItems">
+            <!-- 表格 -->
+            <table id="menuTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>名称</th>
+                        <th>描述</th>
+                        <th>价格</th>
+                        <th>类别</th>
+                        <th>库存</th>
+                        <th>创建时间</th>
+                        <th>更新时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 菜单项将通过JavaScript动态插入 -->
+                </tbody>
+            </table>
+            <!-- 工具行  -->
+            <div class="pagination-controls">
+                <button onclick="load_edit('Dishesadd')">新增菜单</button>
+                <!-- 分页控件 -->
+                <div class="pagination" id="pagination">
+                </div>
+                <!-- 静态按钮 -->
+                <!-- <button onclick="document.getElementById('myModal').style.display='block'">点击</button> -->
+                <!-- 跳转页码输入框 -->
+                <input type="text" class="jump-to-page-input"></button>
+                <!-- 跳转按钮 -->
+                <button class="jump-to-page-button">跳转</button>
+                <!-- 点击按钮 -->
+
+            </div>
+        </div>
+        <!-- 模态框-->
+        <div id="myModal" class="modal">
+            <!-- 模态框的内容 -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modal-content-main">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 右键 -->
+    <div id="context-menu" class="context-menu">
+        <a href="#" class="context-menu-item">修改</a>
+        <a href="#" class="context-menu-item">删除</a>
+    </div>
+</body>
+
+<script type="module">
+
+
+    // 假设这是从后端获取的菜单数据
+    import { setCurrentPage, totalPages, Updatemenuscreen ,clearmenuItems } from "/public/admin/Dish/js/table.js";
+    // 初始化时
+    setCurrentPage(1);
+    Updatemenuscreen();
+
+    // 输入页码跳转事件,点击jump-to-page-button按钮时，获取输入框的值，并将其转换为整数，然后检查其是否在合理范围内，如果是，则更新当前页并重新渲染菜单项和分页控件。
+    document.querySelector('.jump-to-page-button').addEventListener('click', () => {
+        const input = document.querySelector('.jump-to-page-input');
+        const page = parseInt(input.value);
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+            Updatemenuscreen();
+        } else {
+            qmsg.error('请输入正确的页码');
+            input.value = '';
+        }
+    });
+
+
+    // 点击<span> (x), 关闭模态框
+    document.getElementsByClassName("close")[0].onclick = function () {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    // 在用户点击模态框外部时，关闭它
+    window.onclick = function (event) {
+        if (event.target == document.getElementById("myModal")) {
+            document.getElementById("myModal").style.display = "none";
+        }
+    }
+    // 获取右键菜单的DOM元素
+    const contextMenu = document.getElementById('context-menu');
+    // 用于存储右键菜单的上下文数据
+    let menuItemContext;
+    // 监听右键点击事件
+    document.addEventListener('contextmenu', (e) => {
+        // 检查是否点击在表格行上
+        const selectedRow = getClosestTableRow(e.target);
+
+        if (selectedRow && selectedRow.parentNode.tagName === 'TBODY') {
+            // 显示右键菜单
+            contextMenu.style.display = 'block';
+            contextMenu.style.left = e.pageX + 'px';
+            contextMenu.style.top = e.pageY + 'px';
+
+            // 阻止默认的上下文菜单显示
+            e.preventDefault();
+            // console.log(selectedRow);
+            // 将选中的行存储在全局变量或事件中，以便后续使用
+            menuItemContext = { row: selectedRow };
+        } else {
+            // 如果点击的不是表格行，则隐藏右键菜单
+            contextMenu.style.display = 'none';
+        }
+    });
+
+    // 监听页面的点击事件，如果点击的不是右键菜单，则隐藏菜单（比如右键点击后在点击左键可以取消掉）
+    document.addEventListener('click', (e) => {
+        if (e.target.id !== 'context-menu')
+            contextMenu.style.display = 'none';
+    }
+    );
+
+    // 用于获取点击事件最近的<tr>元素，确保它属于表格数据部分
+    function getClosestTableRow(element) {
+        let currentElement = element;
+        while (currentElement) {
+            if (currentElement.tagName === 'TR') {
+                return currentElement;
+            }
+            currentElement = currentElement.parentNode;
+        }
+        return null;
+    }
+
+    // 为右键菜单项添加事件监听器
+    contextMenu.addEventListener('click', (e) => {
+        e.preventDefault(); // 阻止链接的默认行为
+        // 获取点击的菜单项
+        const menuItem = e.target.closest('.context-menu-item');
+        if (menuItem) {
+            // 获取右键菜单项的文本内容
+            const action = menuItem.textContent.trim();
+            // 从存储的数据中获取选中的行
+            const selectedRow = menuItemContext.row;
+            if (selectedRow) {
+                if (action === '修改') {
+                    // 执行修改操作
+                    console.log('修改行:', selectedRow);
+                    let Currentcontent = parseImageTextToParams(selectedRow.innerHTML);
+                    // 这里可以添加修改行的代码
+                    load_edit('Dishesedit', Currentcontent);
+
+                } else if (action === '删除') {
+                    // 执行删除操作
+                    console.log('删除行:', selectedRow);
+
+                    // 这里可以添加删除行的代码
+                    let data = selectedRow.cells[0].textContent;
+                    fetch(API_URL + '/admin/Dishesdelete', {
+                        method: 'POST',
+                        credentials: 'include',
+                        body: data,
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                Qmsg.success('删除成功');
+                                clearmenuItems();
+                                // window.location.href = '/admin/dishes';
+                            } else {
+                                Qmsg.success('删除失败');
+                            }
+                        })
+                }
+            }
+            // 隐藏右键菜单
+            contextMenu.style.display = 'none';
+        }
+    });
+    //修改值的时候传入的当前行的值
+    function parseImageTextToParams(text) {
+        // 使用正则表达式匹配所有的<td>标签内容
+        const regex = /<td>(.*?)<\/td>/g;
+        let match;
+        const data = [];
+
+        // 循环匹配所有的<td>内容
+        while ((match = regex.exec(text)) !== null) {
+            // 将匹配到的内容（去掉<td>和</td>标签）添加到数组中
+            data.push(match[1]);
+        }
+
+        // 将数据数组转换为对象
+        const item = {
+            id: data[0],
+            name: data[1],
+            description: data[2],
+            price: data[3],
+            category: data[4],
+            stock: data[5],
+            createdAt: data[6],
+            updatedAt: data[7]
+        };
+
+        return item;
+    }
+</script>
