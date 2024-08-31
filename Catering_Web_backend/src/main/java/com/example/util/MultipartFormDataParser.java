@@ -1,12 +1,16 @@
 package com.example.util;
 
 import com.sun.net.httpserver.HttpExchange;
+import com.sun.source.tree.ImportTree;
 
+import javax.print.DocFlavor;
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 //分析前端发送的请求，映射对对应的map类
 public class MultipartFormDataParser {
 
@@ -19,6 +23,7 @@ public class MultipartFormDataParser {
      */
     public static Map<String, String> parse(HttpExchange exchange) throws IOException {
         String contentType = exchange.getRequestHeaders().getFirst("Content-Type");
+        System.out.println("提交的类型："+contentType);
         if (contentType != null) {
             // 处理 application/x-www-form-urlencoded 类型的表单数据
             if (contentType.contains("application/x-www-form-urlencoded")) {
@@ -28,6 +33,9 @@ public class MultipartFormDataParser {
             else if (contentType.contains("multipart/form-data")) {
                 String boundary = contentType.split("boundary=")[1];
                 return parseMultipartFormData(exchange.getRequestBody(), boundary);
+            }
+            else if (contentType.contains("text/plain")) {
+                System.out.println("text/plain类型，请调用本雷中的getRequestBody获取");
             }
         }
         return new HashMap<>();
@@ -141,5 +149,37 @@ public class MultipartFormDataParser {
             }
         }
         return null;
+    }
+    //分析get请求，格式page=1&pagesize=2
+    public static Map<String, String> parseQueryString(String queryString) {
+        Map<String, String> params = new HashMap<>();
+        String[] pairs = queryString.split("&"); // 按"&"分割参数
+
+        for (String pair : pairs) {
+            String[] keyValue = pair.split("="); // 按"="分割键和值
+            if (keyValue.length == 2) {
+                params.put(keyValue[0], keyValue[1]);
+            }
+        }
+
+        return params;
+    }
+
+    /**
+     * 读取请求体并返回給请求体的字符串表示
+     *
+     * @param exchange HttpExchange 对象
+     * @return 请求体的字符串表示
+     * @throws IOException 读取请求体时可能抛出的异常
+     */
+    public static String readRequestBody(HttpExchange exchange) throws IOException {
+        try (InputStream requestBody = exchange.getRequestBody();
+             BufferedReader reader = new BufferedReader(new InputStreamReader(requestBody, StandardCharsets.UTF_8))) {
+
+            // 使用 try-with-resources 语句自动关闭资源
+            // 使用 Collectors.joining 来合并所有行成为一个单一的字符串
+            return reader.lines().collect(Collectors.joining());
+        }
+        // try-with-resources 语句结束，requestBody 和 reader 都被自动关闭
     }
 }

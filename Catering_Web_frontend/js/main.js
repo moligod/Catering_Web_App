@@ -3,7 +3,6 @@ const routes = {
     '/login': 'public/login.html',
     '/register': 'public/register.html',
     '/admin': 'public/admin.html',
-    '/index.html': 'public/home.html',
 };
 
 //获取指定cookie的值
@@ -22,13 +21,12 @@ function verifyToken(path, callback) {
     var token = getCookie('jwtToken');
     // 如果没有找到直接重定向到登录界面
     if (!token) {
-        // console.log('2');
         window.location.href = "/login";
         return;
     }
     // console.log("path地址"+path);
     //发送一个post请求到后端验证token
-    fetch("http://localhost:8081"+path, {
+    fetch(API_URL+path, {
         method: 'POST',
         credentials: 'include' // 确保发送请求时包含Cookie
     })
@@ -92,7 +90,7 @@ function loadPage(route) {
         })
         .then(response => response.text())// 将响应对象转换为文本
         .then(html => {
-            // 获取内容容器的引用，将HTML内容插入其中
+            // 获取内容容器
             const contentDiv = document.getElementById('content');
             // 将加载的HTML内容插入到内容容器中
             contentDiv.innerHTML = html;

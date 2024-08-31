@@ -31,7 +31,7 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     }
 
     // 发送注册请求
-    fetch('http://localhost:8081/register', {
+    fetch(API_URL+'/register', {
         method: 'POST',
         credentials: 'include',//发送凭证，不写接受的cookie会被浏览器拦截（被折磨了好几个小时）
         body: data,

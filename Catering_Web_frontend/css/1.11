@@ -1,78 +1,109 @@
-/* 一级菜单样式 */
-.admin-app-menu-tree li {
-    padding: 15px 20px;
-    cursor: pointer;
-    border-bottom: 1px solid #394a59;
-}
-/* 菜单被选中时样式 */
-.admin-app-menu-tree li:hover, .admin-app-menu-tree li.active {
-    background: #009688;
-}
+// 定义了一个名为renderPagination的函数，用于渲染分页控件。
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = ''; // 清空当前分页内容
 
-
-/* 二级菜单 */
-.admin-app-menu-tree li ul {
-    /* display: none;默认隐藏 */
-    padding-left: 10px; /*调整左边距，确保二级菜单有缩进*/
-    padding-top: 10px;
-}
-
-/* 二级菜单展开样式 */
-.admin-app-menu-tree li ul li {
-
-    padding: 10px 20px 10px 40px;
-    background: #476b8a;
-}
-
-/* 二级菜单被选中时样式 */
-.admin-app-menu-tree li ul li:hover {
-    background: #476b8a;
-}
-
-
-
-
-
-
-
-
-
-    // 选择类名为 admin-app-menu-tree 的所有 ul 元素的直接子元素 li
-    document.querySelectorAll('.admin-app-menu-tree > li').forEach(function(item) {
-        item.addEventListener('click', function(event) {
-            // 阻止事件冒泡
-            event.stopPropagation();
-
-            // 确保 ul 元素存在
-            var subMenu = this.querySelector('ul');
-            if (subMenu) {
-                if (this.classList.contains('active')) {
-                    this.classList.remove('active');
-                    subMenu.style.display = 'none';
-                } else {
-                    document.querySelectorAll('.admin-app-menu-tree > li.active').forEach(function(activeItem) {
-                        activeItem.classList.remove('active');
-                        activeItem.querySelector('ul').style.display = 'none';
-                    });
-                    this.classList.add('active');
-                    subMenu.style.display = 'block';
+            // 创建上一页按钮
+            const prevButton = document.createElement('button');
+            prevButton.textContent = '<';
+            // 如果是第一页，则禁用上一页按钮
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderItems(currentPage);
+                    renderPagination();
                 }
+            });
+            // 将上一页按钮添加到分页控件中
+            pagination.appendChild(prevButton);
+
+            // 计算并创建页码按钮
+            const maxButtons = 8; // 显示的按钮数量
+            const startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+            const endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('span');
+                pageButton.textContent = i;
+                pageButton.className = currentPage === i ? 'page-number active' : 'page-number';
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    renderItems(currentPage);
+                    renderPagination();
+                });
+                pagination.appendChild(pageButton);
             }
-        });
-    });
+
+            // 创建下一页按钮
+            const nextButton = document.createElement('button');
+            nextButton.textContent = '>';
+            nextButton.disabled = currentPage === totalPages; // 如果是最后一页，则禁用下一页按钮
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderItems(currentPage);
+                    renderPagination();
+                }
+            });
+            pagination.appendChild(nextButton);
+
+            // 创建跳至页码的输入框
+            const jumpToPageInput = document.createElement('input');
+            jumpToPageInput.type = 'text';
+            jumpToPageInput.placeholder = '页';
+            jumpToPageInput.className = 'jump-to-page-input';
+            pagination.appendChild(jumpToPageInput);
+
+            // 创建跳至页码的按钮
+            const jumpToPageButton = document.createElement('button');
+            jumpToPageButton.textContent = '跳至 页';
+            jumpToPageButton.className = 'jump-to-page-button';
+            jumpToPageButton.addEventListener('click', () => {
+                const page = parseInt(jumpToPageInput.value, 10) || 1;
+                if (page >= 1 && page <= totalPages) {
+                    currentPage = page;
+                    renderItems(currentPage);
+                    renderPagination();
+                } else {
+                    // Handle invalid input, e.g., display an alert or clear the input
+                    alert('请输入有效的页码！');
+                    jumpToPageInput.value = '';
+                }
+            });
+            pagination.appendChild(jumpToPageButton);
 
 
+            // 创建添加菜品的按钮
+            const addButton = document.createElement('button');
+            addButton.textContent = '添加菜品';
+            addButton.id = 'openModalBtn';
+            addButton.addEventListener('click', () => {
+                //在当前界面弹出添加菜品的表单，代码通过导入Dishesadd.html文件实现,且这个文件是悬浮在当前界面上的
+                // 获取打开模态框的按钮和模态框本身
+                var openModalBtn = document.getElementById("openModalBtn");
+                var modal = document.getElementById("myModal");
 
-    // 为每个 .admin-app-header-user 元素添加点击事件监听器
-document.querySelectorAll('.admin-app-header-user').forEach(userHeader => {
-  userHeader.addEventListener('click', function () {
-    // 获取当前点击的 .admin-app-header-user 元素关联的 .admin-app-header-user-tree
-    const userTree = this.querySelector('.admin-app-header-user-tree');
+                // 获取关闭按钮
+                var closeBtn = document.getElementsByClassName("close")[0];
 
-    // 检查 .admin-app-header-user-tree 是否存在
-    if (userTree) {
-      // 切换 'opened' 状态
-      userTree.style.display = userTree.style.display === 'block' ? 'none' : 'block';
-    }
-  });
-});
+                // 点击打开按钮时，显示模态框
+                openModalBtn.onclick = function () {
+                    modal.style.display = "block";
+                }
+
+                // 点击关闭按钮时，隐藏模态框
+                closeBtn.onclick = function () {
+                    modal.style.display = "none";
+                }
+
+                // 点击模态框外部区域时，隐藏模态框
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            });
+            pagination.appendChild(addButton);
+
+        }

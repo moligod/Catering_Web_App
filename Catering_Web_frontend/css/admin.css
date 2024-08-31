@@ -1,3 +1,9 @@
+/* 默认样式 */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
 /* 侧边菜单栏 */
 .admin-app-menu {
     width: 220px;
@@ -56,7 +62,7 @@
     padding: 0 0 0 30px;
     margin: 0;
     display: none;
-    background-color: rgb(33, 38, 42)
+    background-color: rgb(33, 38, 42);
 }
 /* 侧边栏菜单-二级菜单-单 */
 .admin-app-menu-tree+ul li a {
@@ -79,11 +85,11 @@
 .admin-app-header{
     margin-left: 220px;
     height: 50px;
-    background: rgb(240, 240, 240);;
+    background: rgba(242, 242, 243, 0.69);
     position: fixed; /* 悬浮在顶部 */
     width: calc(100% - 220px); /* 使导航栏宽度适应页面宽度 */
-    /* 确保它在其他元素之上 */
-    /* z-index: 1000;  */
+    /* 确保它在其他元素之上，比如退出键 */
+    z-index: 100; 
 }
 
 /* 顶部导航栏-右侧头像框区域 */
@@ -134,7 +140,7 @@
     /* 让下拉菜单出现在头像框的正下方比并且左右对齐 */
     top: 110%;
     right: 2%;
-    z-index: 1000; /* 确保下拉菜单在其他元素之上 */
+    
 }
 
 .admin-app-header-user-tree ul {
@@ -170,10 +176,14 @@
 
 
 /* 主内容 */
-.admin-app-content {
+#admin-app-content {
     padding-left: 220px;
     padding-top: 50px;
+    
     /* 高度是顶部导航栏减去的剩余高度 */
     height: calc(100vh - 50px);
-    background: rgb(211, 219, 225);
+    background: rgb(230, 231, 234);/
+
 }
+
+/* 模态框样式 */

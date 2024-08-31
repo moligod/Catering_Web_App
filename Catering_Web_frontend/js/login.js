@@ -29,9 +29,8 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     for (const pair of formData) {
         data.append(pair[0], pair[1]);
     }
-
     // 发送登录请求
-    fetch('http://localhost:8081/login', {
+    fetch(API_URL+'/login', {
         method: 'POST',
         credentials: 'include',//发送凭证，不写接受的cookie会被浏览器拦截（被折磨了好几个小时）
         body: data,

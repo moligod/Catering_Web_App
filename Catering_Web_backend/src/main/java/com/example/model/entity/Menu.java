@@ -12,7 +12,29 @@ public class Menu {
     private Integer stock;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
+    public Menu(){}
+    //创建新用户
+    public Menu(String name, String description, BigDecimal price, String category, Integer stock) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.stock = stock;
+        // 初始化 createdAt和updatedAt 属性为当前时间
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+    //更新用户
+    public Menu(Long id,String name, String description, BigDecimal price, String category, Integer stock) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.stock = stock;
+        // 更新 updatedAt 属性为当前时间
+        this.updatedAt = LocalDateTime.now();
+    }
     public Long getId() {
         return id;
     }

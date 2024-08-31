@@ -4,6 +4,8 @@ import com.example.dao.UserDAO;
 import com.example.model.entity.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -32,6 +34,22 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
+    //查找某些用户信息
+    public List<User> finduserlist(int pageSize,int page){
+        String sql = "SELECT * FROM users ORDER BY id LIMIT ? OFFSET ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, pageSize);
+            stmt.setInt(2, (page - 1) * pageSize);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                // 处理每行数据
+                return mapResultSetToUsers(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     //用ID找指定用户并更新信息
     @Override
     public void updateUser(User user) {
@@ -49,7 +67,7 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-
+    //新增用户信息
     @Override
     public boolean saveUser(User user) {
         String sql = "INSERT INTO users (username, password, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
@@ -68,6 +86,7 @@ public class UserDAOImpl implements UserDAO {
         }
         return false;
     }
+
     //把从数据库查询到的数据遍历到User实体类中
     private User mapResultSetToUser(ResultSet resultSet) throws SQLException {
         User user = new User();
@@ -80,7 +99,23 @@ public class UserDAOImpl implements UserDAO {
         user.setJwtToken(resultSet.getString("jwtToken"));
        return user;
     }
-
+    //把从数据库查询到的数据遍历到User实体类中-多数据
+    private List<User> mapResultSetToUsers(ResultSet resultSet) throws SQLException {
+        List<User> users = new ArrayList<>();
+        while (resultSet.next()) {
+            User user = new User();
+            user.setId(resultSet.getLong("id"));
+            user.setUsername(resultSet.getString("username"));
+            user.setPassword(resultSet.getString("password"));
+            user.setRole(resultSet.getString("role"));
+            user.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
+            user.setUpdatedAt(resultSet.getTimestamp("updated_at").toLocalDateTime());
+            user.setJwtToken(resultSet.getString("jwtToken"));
+            users.add(user);
+        }
+        return users;
+    }
+    //删除token
     public int delecttoken(String token){
         String sql = "UPDATE users SET jwtToken = NULL WHERE jwtToken = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {

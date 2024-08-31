@@ -11,6 +11,7 @@ import com.example.util.JWTUtil;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class UserServiceImpl implements UserService {
@@ -19,7 +20,7 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
-
+    //登录账号
     @Override
     public ResponseVO<UserVO> loginUser(UserDTO userDTO) {
         //获取指定用户的信息
@@ -62,7 +63,7 @@ public class UserServiceImpl implements UserService {
         }
             return new ResponseVO<>(401, "账号密码格式不对", null);
     }
-    //删除token
+    //退出账号-删除token
     @Override
     public ResponseVO<Void> logouttoken(String token) {
         if(userDAO.delecttoken(token)>0){
@@ -70,4 +71,5 @@ public class UserServiceImpl implements UserService {
         }
         return new ResponseVO<>(401, "删除失败", null);
     }
+
 }

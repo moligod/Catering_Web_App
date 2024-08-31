@@ -3,9 +3,17 @@ package com.example.model.dto;
 public class MenuDTO {
     private String name;
     private String description;
-    private Double price;
+    private String price;
     private String category;
-    private Integer stock;
+    private String stock;
+    //新增时用
+    public MenuDTO(String name, String description, String price, String category, String stock) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.stock = stock;
+    }
 
     // Getters and Setters
 
@@ -25,11 +33,11 @@ public class MenuDTO {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -41,11 +49,11 @@ public class MenuDTO {
         this.category = category;
     }
 
-    public Integer getStock() {
+    public String getStock() {
         return stock;
     }
 
-    public void setStock(Integer stock) {
+    public void setStock(String stock) {
         this.stock = stock;
     }
 }

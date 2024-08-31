@@ -20,4 +20,7 @@ window.QMSG_GLOBALS = {
     }
 }
 
+//常量池
+const API_URL = "http://localhost:8081";
+
 

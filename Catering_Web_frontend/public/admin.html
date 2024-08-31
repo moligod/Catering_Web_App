@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/admin.css">
-    <script src="/js/admin.js"></script>
-</head>
+
+<link rel="stylesheet" href="/css/admin.css">
+
 <body>
     <div id="admin-app">
         <!-- 侧边栏 -->
@@ -12,63 +8,72 @@
             <!-- 顶部标题 -->
             <div class="admin-app-menu-title">后台管理界面</div>
             <!--侧边栏列表-->
-                    <div class="admin-app-menu-tree"><img class="admin-app-menu-tree-img1"src="../assets/image/菜单.svg" alt="">菜单管理<img class="admin-app-menu-tree-img2"src="../assets/image/向下.svg" alt=""></div>
-                    <ul>
-                        <li><a>菜品列表</a></li>
-                        <li><a>新增菜品</a></li>
-                        <li><a>修改菜品</a></li>
-                        <li><a>删除菜品</a></li>
-                    </ul>
-                    <div class="admin-app-menu-tree"><img class="admin-app-menu-tree-img1"src="../assets/image/订单.svg" alt="">订单管理<img class="admin-app-menu-tree-img2"src="../assets/image/向下.svg" alt=""></div>
-                    <ul>
-                        <li><a href="#1">订单列表</a></li>
-                        <li><a href="#2">新增订单</a></li>
-                        <li><a href="#3">修改订单</a></li>
-                        <li><a href="#4">删除订单</a></li>
-                    </ul>
-                    <div class="admin-app-menu-tree"><img class="admin-app-menu-tree-img1"src="../assets/image/订单.svg" alt="">库存管理<img class="admin-app-menu-tree-img2"src="../assets/image/向下.svg" alt=""></div>
-                    <ul>
-                        <li><a href="#1">库存管理</a></li>
-                        <li><a href="#2">入库</a></li>
-                        <li><a href="#3">出库</a></li>
-                    </ul>
-                    <div class="admin-app-menu-tree"><img class="admin-app-menu-tree-img1"src="../assets/image/订单.svg" alt="">员工管理<img class="admin-app-menu-tree-img2"src="../assets/image/向下.svg" alt=""></div>
-                    <ul>
-                        <li><a href="#1">员工列表</a></li>
-                        <li><a href="#2">录入</a></li>
-                        <li><a href="#3">修改</a></li>
-                        <li><a href="#4">删除</a></li>
-                    </ul>
-                    <div class="admin-app-menu-tree"><img class="admin-app-menu-tree-img1"src="../assets/image/订单.svg" alt="">财务管理<img class="admin-app-menu-tree-img2"src="../assets/image/向下.svg" alt=""></div>
-                    <ul>
-                        <li><a href="#1">财务统计</a></li>
-                        <li><a href="#2">报表生成</a></li>
-                    </ul>
+            <div class="admin-app-menu-tree"><img class="admin-app-menu-tree-img1" src="../assets/image/菜单.svg"
+                    alt="">菜单管理<img class="admin-app-menu-tree-img2" src="../assets/image/向下.svg" alt=""></div>
+            <ul>
+                <li><a onclick="Embedded_file('Disheslist')">菜品列表</a></li>
+                <li><a id="openModalBtn" onclick="load_edit('Dishesadd')">新增菜品</a></li>
+            </ul>
+            <div class="admin-app-menu-tree"><img class="admin-app-menu-tree-img1" src="../assets/image/订单.svg"
+                    alt="">订单管理<img class="admin-app-menu-tree-img2" src="../assets/image/向下.svg" alt=""></div>
+            <ul>
+                <li><a href="#1">订单列表</a></li>
+                <li><a href="#2">新增订单</a></li>
+                <li><a href="#3">修改订单</a></li>
+                <li><a href="#4">删除订单</a></li>
+            </ul>
+            <div class="admin-app-menu-tree"><img class="admin-app-menu-tree-img1" src="../assets/image/订单.svg"
+                    alt="">库存管理<img class="admin-app-menu-tree-img2" src="../assets/image/向下.svg" alt=""></div>
+            <ul>
+                <li><a href="#1">库存管理</a></li>
+                <li><a href="#2">入库</a></li>
+                <li><a href="#3">出库</a></li>
+            </ul>
+            <div class="admin-app-menu-tree"><img class="admin-app-menu-tree-img1" src="../assets/image/订单.svg"
+                    alt="">员工管理<img class="admin-app-menu-tree-img2" src="../assets/image/向下.svg" alt=""></div>
+            <ul>
+                <li><a href="#1">员工列表</a></li>
+                <li><a href="#2">录入</a></li>
+                <li><a href="#3">修改</a></li>
+                <li><a href="#4">删除</a></li>
+            </ul>
+            <div class="admin-app-menu-tree"><img class="admin-app-menu-tree-img1" src="../assets/image/订单.svg"
+                    alt="">财务管理<img class="admin-app-menu-tree-img2" src="../assets/image/向下.svg" alt=""></div>
+            <ul>
+                <li><a href="#1">财务统计</a></li>
+                <li><a href="#2">报表生成</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 顶部导航栏 -->
+    <div class="admin-app-header">
+        <!-- 右侧头像框区域 -->
+        <div class="admin-app-header-user">
+            <!-- 用户头像 -->
+            <img src="../assets/image/用户.svg" alt="用户头像">
+            <!-- 用户名 -->
+            <div class="admin-app-header-user-name"></div>
+            <!-- 下拉菜单 -->
+            <div class="admin-app-header-user-tree">
+                <ul>
+                    <li><a href="#logouttoken">退出登录</a></li>
+                </ul>
             </div>
         </div>
-        <!-- 顶部导航栏 -->
-         <div class="admin-app-header">
-            <!-- 右侧头像框区域 -->
-            <div class="admin-app-header-user">
-                    <!-- 用户头像 -->
-                    <img src="../assets/image/用户.svg" alt="用户头像">
-                    <!-- 用户名 -->
-                    <div class="admin-app-header-user-name"></div>
-                <!-- 下拉菜单 -->
-                <div class="admin-app-header-user-tree">
-                    <ul>
-                     <li><a href="#1">修改头像</a></li>
-                      <li><a href="#logouttoken">退出登录</a></li>
-                  </ul>
-                </div>
-            </div>
 
-         </div>
-        <!-- 主体内容 -->
-         <div class="admin-app-content">123</div>
+    </div>
+    <!-- 主体内容 -->
+        <div id="admin-app-content">
+            <h2 style="text-align: center;">欢迎来到管理系统后台</h2>
+            <ul>
+                <li><strong>菜单管理：</strong>管理和维护系统的菜单项。</li>
+                <li><strong>订单管理：</strong>查看和处理用户订单。</li>
+                <li><strong>库存管理：</strong>管理库存信息，确保商品充足。</li>
+                <li><strong>员工管理：</strong>管理员工信息和权限。</li>
+                <li><strong>财务管理：</strong>查看和管理财务记录。</li>
+            </ul>
+        </div>
+
 </body>
-</html>
 
-
-
-
+<script src="/js/admin.js"></script>
