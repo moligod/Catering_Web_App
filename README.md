@@ -1,4 +1,4 @@
-
+PS：大一结课时的项目
 前端：html-css-JavaScript
 后端：java
 单界面应用，无任何框架组件，包只有mysql的jdbc连接器mysql-connector-java.jar
